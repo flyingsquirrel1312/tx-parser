@@ -20,20 +20,27 @@ func NewHTTPHandler(parser service.Parser) *HTTPHandler {
 
 func (h *HTTPHandler) HandleGetCurrentBlock(w http.ResponseWriter, _ *http.Request) {
 	block := h.parser.GetCurrentBlock()
-	responseJSON(w, http.StatusOK, block)
+	responseJSON(w, http.StatusOK, map[string]int{"block": block})
 }
 
 func (h *HTTPHandler) HandleSubscribe(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
+	err := r.ParseMultipartForm(1 << 20) // 1 MB
 	if err != nil {
 		responseJSON(w, http.StatusBadRequest, map[string]string{"error": "failed to parse the form"})
 		return
+
 	}
-	if !r.Form.Has("address") {
+	address := r.FormValue("address")
+	if address == "" {
 		responseJSON(w, http.StatusBadRequest, map[string]string{"error": "address is required"})
 		return
 	}
-	address := r.Form.Get("address")
+	var ok bool
+	address, ok = validateAndFormatEthereumAddress(address)
+	if !ok {
+		responseJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid address"})
+		return
+	}
 	err = h.parser.Subscribe(address)
 	if err != nil {
 		if errors.Is(err, data.ErrAddressAlreadySubscribed) {

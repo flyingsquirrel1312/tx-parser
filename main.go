@@ -52,9 +52,9 @@ func main() {
 	}
 	//_ = parser.Subscribe("0xad03de7dbef5bf0cc4ea23285786e87dbaf69eb3")
 	handler := api.NewHTTPHandler(parser)
-	http.HandleFunc("/subscribe", api.Post(handler.HandleSubscribe))
-	http.HandleFunc("/transactions", api.Get(handler.HandleGetTransactions))
-	http.HandleFunc("/current_block", api.Get(handler.HandleGetCurrentBlock))
+	http.HandleFunc("/api/v1/address", api.Post(handler.HandleSubscribe))
+	http.HandleFunc("/api/v1/transactions", api.Get(handler.HandleGetTransactions))
+	http.HandleFunc("/api/v1/transaction/current_block", api.Get(handler.HandleGetCurrentBlock))
 
 	var wg sync.WaitGroup
 	wg.Add(1)

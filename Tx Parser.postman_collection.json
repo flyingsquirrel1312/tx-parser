@@ -1,0 +1,75 @@
+{
+	"info": {
+		"_postman_id": "3f04da21-bd39-4e2b-82c1-f0a42eadb8d7",
+		"name": "Tx Parser",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32103014",
+		"_collection_link": "https://grvtio.postman.co/workspace/GRVT-Internal~15166d14-463a-4462-9bcf-538c69dae63d/collection/32103014-3f04da21-bd39-4e2b-82c1-f0a42eadb8d7?action=share&source=collection_link&creator=32103014"
+	},
+	"item": [
+		{
+			"name": "Subscribe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "address",
+							"value": "0xad03de7dbef5bf0cc4ea23285786e87dbaf69eb3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/address",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/transactions?address=0xad03de7dbef5bf0cc4ea23285786e87dbaf69eb3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "address",
+							"value": "0xad03de7dbef5bf0cc4ea23285786e87dbaf69eb3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current Block",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
