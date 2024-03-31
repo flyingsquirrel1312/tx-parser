@@ -60,6 +60,16 @@ func (h *HTTPHandler) HandleSubscribe(w http.ResponseWriter, r *http.Request) {
 
 func (h *HTTPHandler) HandleGetTransactions(w http.ResponseWriter, r *http.Request) {
 	address := r.URL.Query().Get("address")
+	if address == "" {
+		responseJSON(w, http.StatusBadRequest, map[string]string{"error": "address is required"})
+		return
+	}
+	var ok bool
+	address, ok = validateAndFormatEthereumAddress(address)
+	if !ok {
+		responseJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid address"})
+		return
+	}
 	transactions, err := h.parser.GetTransactions(address)
 	if err != nil {
 		if errors.Is(err, data.ErrAddressNotSubscribed) {
